@@ -12,6 +12,7 @@ use App\Http\Controllers\ClientServiceController;
 use App\Http\Controllers\PercentController;
 use App\Http\Controllers\ProspectServiceController;
 use App\Http\Controllers\ClientGalleryController;
+use App\Http\Controllers\ReceiptController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -49,6 +50,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('percents', PercentController::class);
     Route::resource('users', UserController::class);
     Route::resource('settings', SettingController::class);
+    Route::resource('receipts', ReceiptController::class);
 });
 
 

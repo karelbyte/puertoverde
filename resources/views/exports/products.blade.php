@@ -27,7 +27,7 @@
             <td>{{ $product->description }}</td>
             <td>{{ $product->gettype() }}</td>
             <td>{{ $product->measure->name }}</td>
-            <td>{{ $product->price->sale_price }}</td>
+            <td>{{ $product->price->sale_price ?? $product->prices[0]->sale_price}}</td>
         </tr>
     @endforeach
     </tbody>

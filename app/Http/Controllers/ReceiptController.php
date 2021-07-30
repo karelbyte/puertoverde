@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\ProductPrice;
 use App\Models\ProductProvider;
 use App\Models\ProductRelate;
+use App\Models\Receipt;
 use Illuminate\Http\Request;
 use App\Http\Resources\Product as ProductResource;
 use Exception;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ProductController extends Controller
+class ReceiptController extends Controller
 {
     use PagesTrait;
 
@@ -26,42 +27,19 @@ class ProductController extends Controller
 
         try {
 
-            $data = Product::with(['prices', 'providers', 'relates'])
+            $data = Receipt::with(['items', 'user'])
                      ->template($request->template)
                      ->filter($request->name)
                      ->type($request->type);
 
-            if (!$request->list) {
-                list($take, $skip) = $this->getPagesConfig($request);
-                $total = $data->select('*')->count();
-                $list = $data->skip($skip)->take($take)->get();
-            } else {
-                $total = 0;
-                $list = $data->get();
-            }
+            list($take, $skip) = $this->getPagesConfig($request);
+            $total = $data->select('*')->count();
+            $list = $data->skip($skip)->take($take)->get();
 
             return  [
                 'total' => $total,
                 'data' => new ProductCollection($list),
             ];
-
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-
-    }
-
-    public function export(Request $request)
-    {
-
-        try {
-
-            $fileName = 'productos-'  .now(). '.xlsx';
-
-            Excel::store(new ProductsExport($request->all()), $fileName, 'public');
-
-             $url = url('/');
-            return ['data' => "${url}/storage/${fileName}"];
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

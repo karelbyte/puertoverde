@@ -67,6 +67,7 @@ class UserController extends Controller
                     'manager_percentage' => $request->manager_percentage,
                     'manager_price' => $request->manager_price,
                     'free_for_all' => $request->free_for_all,
+                    'admin' => $request->admin,
                 ]
             );
 
@@ -119,6 +120,7 @@ class UserController extends Controller
                 'manager_percentage' => $request->manager_percentage,
                 'manager_price' => $request->manager_price,
                 'free_for_all' => $request->free_for_all,
+                'admin' => $request->admin,
             ];
 
             if ($request->filled('password')) {
