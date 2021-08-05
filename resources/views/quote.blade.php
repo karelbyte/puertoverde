@@ -253,7 +253,7 @@
      <br><br>
      <div style="font-size: 22px; margin-top: 10px; margin-bottom: 10px"><b>5. APOYO AL MEDIO AMBIENTE</b></div>
     <p style="font-size: 22px;  text-align: justify">
-        Cada módulo solar equivale a 32 árboles plantados al año. Con tu inversión estás a punto de producir el equivalente a <b>{{$data->trees()}}</b> plantados al año. Con esto contribuyes a reducir los efectos del cambio climático.
+        Cada módulo solar equivale a 32 árboles plantados al año. Con tu inversión estás a punto de producir el equivalente a <b>{{$data->trees()}}</b> árboles plantados al año. Con esto contribuyes a reducir los efectos del cambio climático.
 
     </p>
 
@@ -270,15 +270,15 @@
 
      </p>
     <p style="font-size: 22px; text-align: justify">
-        <b>NOTA:</b> <br><br>LOS EQUIPOS PUEDEN VARIAR EN SU MODELO Y CAPACIDAD SEGÚN LA DOSPONIBILIDAD
+        <b>NOTA:</b> <br><br>LOS EQUIPOS PUEDEN VARIAR EN SU MODELO Y CAPACIDAD SEGÚN LA DISPONIBILIDAD
         SIN QUE ESTO AFECTE EN LA PRODUCCION O CALIDAD DE LOS PRODUCTOS. <br><br>
-        LOS TIEMPOS DE INTERCONECCION CON CFE SON INDEPENDIENTES A LA EMPRESA.
+        LOS TIEMPOS DE INTERCONEXION CON CFE SON INDEPENDIENTES A LA EMPRESA.
         <br><br>
         LOS COSTOS NO INCLUYEN EXCAVACION, RANURAS, ACABADOS, UNIFICACION DE CARGAS
         NI MODIFICACION EN LA INSTALACION ELECTRICA INTERNA DEL CLIENTE.
         <br><br>
-        LA EMPRESA SE COMPROMETE A INSTALAR SU PROYECTO EN UN LAPSO NO MAYOR A 15 DÍAS HABILES, SIEMPRE Y CUENDO LAS CONDICIONES DEL TIEMPO LO PERMITAN
-         (EN DÍAS LLUVIOSOS NO ES POCIBLE TRABAJAR)
+        LA EMPRESA SE COMPROMETE A INSTALAR SU PROYECTO EN UN LAPSO NO MAYOR A 15 DÍAS HABILES, SIEMPRE Y CUANDO LAS CONDICIONES DEL TIEMPO LO PERMITAN
+         (EN DÍAS LLUVIOSOS NO ES POSIBLE TRABAJAR)
 
     </p><br>
      <div style="margin-top: 140px; display: block; width: 100%">

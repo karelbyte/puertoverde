@@ -135,7 +135,11 @@ class ClientServiceController extends Controller
 
             $data =  ClientService::where('id', $id)->first();
 
-            if ($data->status == 'new_client') {
+           /* if ($data->status == 'new_client') {
+                return $this->quoteProspect($data);
+            }*/
+
+            if ($data->number_service) {
                 return $this->quoteProspect($data);
             }
 

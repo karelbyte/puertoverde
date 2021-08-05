@@ -30,7 +30,7 @@ class CreateClientServicesTable extends Migration
             $table->double('panel_capacity')->nullable();
             $table->double('irradiation')->nullable();
             $table->string('note', 1000)->nullable();
-            $table->string('status')->default('prospect'); // prospect, new_client, active_client, won
+            $table->string('status')->default('prospect'); // quote_prospect, single_quote_prospect, quote_client, single_quote_client, quote, single_quote
             $table->timestamps();
         });
     }
