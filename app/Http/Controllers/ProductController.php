@@ -60,7 +60,8 @@ class ProductController extends Controller
 
             Excel::store(new ProductsExport($request->all()), $fileName, 'public');
 
-             $url = url('/');
+            $url = url('/');
+
             return ['data' => "${url}/storage/${fileName}"];
 
         } catch (Exception $e) {

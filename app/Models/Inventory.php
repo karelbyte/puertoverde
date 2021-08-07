@@ -7,18 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class ReceiptItems extends Model
+class Inventory extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'receipt_id',
         'product_id',
         'quantity',
+        'min'
     ];
 
-    public function product() {
-       return $this->belongsTo(Product::class);
+
+    public function product () {
+        return $this->belongsTo(Product::class);
     }
 
+
+    public function scopeFilter($query, $pattern) {
+
+        if (!$pattern) {
+            return;
+        }
+
+    }
 }

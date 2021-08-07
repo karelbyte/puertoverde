@@ -14,7 +14,7 @@ class Receipt extends Model
     protected $fillable = [
         'user_id',
         'moment',
-        'doc',
+        'document',
         'note',
         'amount',
         'status'

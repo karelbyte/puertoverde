@@ -22,12 +22,12 @@
     <tbody>
     @foreach($products as $product)
         <tr>
-            <td>{{ $product->code }}</td>
-            <td>{{ $product->name }}</td>
-            <td>{{ $product->description }}</td>
-            <td>{{ $product->gettype() }}</td>
-            <td>{{ $product->measure->name }}</td>
-            <td>{{ $product->price->sale_price ?? $product->prices[0]->sale_price}}</td>
+            <td>{{ $product['code'] }}</td>
+            <td>{{ $product['name'] }}</td>
+            <td>{{ $product['description'] }}</td>
+            <td>{{ $product['type'] }}</td>
+            <td>{{ $product['measure'] }}</td>
+            <td>{{ $product['price']}}</td>
         </tr>
     @endforeach
     </tbody>
