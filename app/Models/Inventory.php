@@ -29,5 +29,12 @@ class Inventory extends Model
             return;
         }
 
+       $products = Product::where('name', 'like', '%' . $pattern .'%')
+            ->orWhere('description', 'like', '%' .$pattern.'%')
+            ->orWhere('code', 'like','%' . $pattern.'%')
+            ->select('id');
+
+        $query->whereIn('product_id', $products);
+
     }
 }

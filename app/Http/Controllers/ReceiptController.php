@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Traits\PagesTrait;
 use App\Http\Resources\ReceiptCollection;
+use App\Models\Inventory;
 use App\Models\Receipt;
 use Illuminate\Http\Request;
 use App\Http\Resources\Receipt as ReceiptResource;
@@ -26,7 +27,9 @@ class ReceiptController extends Controller
 
             list($take, $skip) = $this->getPagesConfig($request);
             $total = $data->select('*')->count();
-            $list = $data->skip($skip)->take($take)->get();
+            $list = $data->skip($skip)->take($take)
+                ->orderBy('moment', 'desc')
+                ->get();
 
             return  [
                 'total' => $total,
@@ -119,11 +122,23 @@ class ReceiptController extends Controller
 
             foreach ($receipt->items as $item) {
 
+                $inventory = Inventory::where('product_id', $item->product_id)->first();
+
+                if ( $inventory) {
+                    $inventory->quantity  =  $inventory->quantity + $item->quantity;
+                    $inventory->save();
+                } else {
+                    Inventory::create([
+                        'product_id' =>  $item->product_id,
+                        'quantity' =>  $item->quantity,
+                        'min' => 0
+                    ]);
+                }
             }
 
             $receipt->fill([
                 'status' => 'apply'
-            ]);
+            ])->save();
 
 
             return new ReceiptResource($receipt);

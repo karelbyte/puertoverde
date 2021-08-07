@@ -13,6 +13,7 @@ use App\Http\Controllers\PercentController;
 use App\Http\Controllers\ProspectServiceController;
 use App\Http\Controllers\ClientGalleryController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\InventoryController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -36,6 +37,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('products/xls', [ProductController::class, 'export']);
     Route::get('settings/folio', [SettingController::class, 'getNextFolio']);
     Route::get('settings/current/change', [SettingController::class, 'getCurrentMoneyChange']);
+    Route::get('receipts/inventories/{id}', [ReceiptController::class, 'setToInventories']);
 
     Route::post('prospect-services/create/client', [ProspectServiceController::class, 'createClient']);
     Route::post('products/file', [ProductController::class, 'storeFile']);
@@ -51,6 +53,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('receipts', ReceiptController::class);
+    Route::resource('inventories', InventoryController::class);
 });
 
 
