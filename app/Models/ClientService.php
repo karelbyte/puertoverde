@@ -20,6 +20,8 @@ class ClientService extends Model
           'annual_kilowatt',
           'annual_cost',
           'required_units',
+          'units',
+          'combined',
           'panel_capacity',
           'irradiation',
           'annual_kilowatt_round',
@@ -27,6 +29,10 @@ class ClientService extends Model
           'dls_change',
           'status',
           'note'
+    ];
+
+    protected $casts = [
+        'combined' => 'boolean'
     ];
 
     public function scopeFreeForAll($query) {
@@ -93,7 +99,7 @@ class ClientService extends Model
 
     public function trees () {
 
-        return $this->required_units  * 32;
+        return $this->units  * 32;
     }
 
     public function productionGuaranteed() {
@@ -105,7 +111,7 @@ class ClientService extends Model
         if ($this->consumptions->count() == 12) {
             $factor = $year;
         }
-        return $factor * $this->required_units;
+        return $factor * $this->units;
     }
 
     public function totalDls () {

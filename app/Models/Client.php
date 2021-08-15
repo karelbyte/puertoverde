@@ -27,6 +27,10 @@ class Client extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    public function services() {
+        return $this->hasMany(ClientService::class);
+    }
+
     public function scopeFreeForAll($query) {
         $user = auth()->user();
         if ($user->free_for_all || $user->admin) {
@@ -35,8 +39,14 @@ class Client extends Model implements HasMedia
         return $query->where('user_id', $user->id);
     }
 
-    public function services() {
-        return $this->hasMany(ClientService::class);
+    public function scopeSortBy($query, $sort, $order) {
+
+        if (!$sort) {
+            $sort = 'created_at';
+        }
+        $order = $order === 'true' ? 'desc' : 'asc';
+
+        $query->orderBy($sort, $order);
     }
 
 
@@ -57,9 +67,12 @@ class Client extends Model implements HasMedia
 
         $users = User::where('name', 'like', '%'.$pattern.'%')->select('id');
 
+        $clients = ClientService::where('folio', 'like', '%'.$pattern.'%')->select('client_id');
+
         $query->where('name', 'like', '%'.$pattern.'%')
             ->orWhere('email', 'like', '%'.$pattern.'%')
             ->orWhere('company', 'like', '%'.$pattern.'%')
-            ->orWhereIn('user_id', $users);
+            ->orWhereIn('user_id', $users)
+            ->orWhereIn('id', $clients);
     }
 }

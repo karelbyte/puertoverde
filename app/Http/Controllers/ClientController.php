@@ -22,7 +22,8 @@ class ClientController extends Controller
 
             $data = Client::where('type', $request->type)
                 ->freeForAll()
-                ->filter($request->name) ;
+                ->filter($request->name)
+                ->sortBy($request->sortBy, $request->descending);
 
             $total = $data->select('*')->count();
             $list = $data->skip($skip)->take($take)->get();

@@ -155,7 +155,7 @@ class ClientServiceController extends Controller
                 ->setOption('footer-html', $footer);
 
 
-            return $pdf->inline('cotizacion.pdf');
+            return $pdf->inline('cotizacion - '.$data->folio .'.pdf');
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

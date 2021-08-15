@@ -66,6 +66,8 @@ class ProspectServiceController extends Controller
                 'annual_kilowatt'=> $request->annual_kilowatt,
                 'annual_cost'=> $request->annual_cost,
                 'required_units'=> $request->required_units,
+                'units'=> $request->units,
+                'combined' => $request->combined,
                 'panel_capacity'=> $request->panel_capacity,
                 'irradiation'=> $request->irradiation,
                 'annual_kilowatt_round'=> $request->annual_kilowatt_round,
@@ -104,6 +106,8 @@ class ProspectServiceController extends Controller
                 'annual_kilowatt'=> $request->annual_kilowatt,
                 'annual_cost'=> $request->annual_cost,
                 'required_units'=> $request->required_units,
+                'combined' => $request->combined,
+                'units'=> $request->units,
                 'panel_capacity'=> $request->panel_capacity,
                 'irradiation'=> $request->irradiation,
                 'annual_kilowatt_round'=> $request->annual_kilowatt_round,
@@ -185,7 +189,7 @@ class ProspectServiceController extends Controller
                 ->setOption('footer-html', $footer);
             //  ->setOption('header-html', $header);
 
-            return $pdf->inline('cotizacion.pdf');
+            return $pdf->inline('cotizacion - '.$data->folio .'.pdf');
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
