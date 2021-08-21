@@ -37,6 +37,8 @@ class ClientService extends JsonResource
             'total_dls' => $this->totalDls(),
             'sellers' => User::collection($this->sellers),
             'quotes' => Quote::collection($this->quotes),
+            'total_annual' =>  $this->total_annual,
+            'total_kwh' =>  $this->total_kwh,
             'status' => $this->status,
             'note' => $this->note
         ];

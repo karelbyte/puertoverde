@@ -40,6 +40,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('receipts/inventories/{id}', [ReceiptController::class, 'setToInventories']);
 
     Route::post('prospect-services/create/client', [ProspectServiceController::class, 'createClient']);
+    Route::post('prospect-services/combine', [ProspectServiceController::class, 'combined']);
     Route::post('products/file', [ProductController::class, 'storeFile']);
 
     Route::resource('clients', ClientController::class);

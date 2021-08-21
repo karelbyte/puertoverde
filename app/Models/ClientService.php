@@ -26,6 +26,8 @@ class ClientService extends Model
           'irradiation',
           'annual_kilowatt_round',
           'annual_cost_round',
+          'total_annual',
+          'total_kwh',
           'dls_change',
           'status',
           'note'
@@ -69,12 +71,18 @@ class ClientService extends Model
 
 
     public function consumptionskWhTotal () {
+        if ($this->total_kwh && $this->total_kwh != 0) {
+            return $this->total_kwh;
+        }
         return  $this->consumptions->reduce(function ($carry,$item) {
             return $carry + $item->kwh;
         }, 0);
     }
 
     public function consumptionsTotal () {
+        if ($this->total_annual && $this->total_annual != 0) {
+            return $this->total_annual;
+        }
         return  $this->consumptions->reduce(function ($carry,$item) {
             return $carry + $item->consumption;
         }, 0);

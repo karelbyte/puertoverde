@@ -22,6 +22,11 @@ class Product extends Model implements HasMedia
         'provider_id',
         'description',
         'measure_id',
+        'status'
+    ];
+
+    protected $casts = [
+        'status' => 'boolean'
     ];
 
     public function measure () {
@@ -76,6 +81,15 @@ class Product extends Model implements HasMedia
         $query->where('name', 'like', '%' . $pattern .'%')
             ->orWhere('description', 'like', '%' .$pattern.'%')
             ->orWhere('code', 'like','%' . $pattern.'%');
+    }
+
+    public function scopeStatus($query, $status) {
+
+        if (!$status) {
+            return;
+        }
+
+        $query->where('status', $status);
     }
 
     public function scopeType($query, $type) {

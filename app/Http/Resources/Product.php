@@ -60,7 +60,9 @@ class Product extends JsonResource
           'providers' => Provider::collection($this->providers),
           'default_price' => $defaultPrice,
           'relates' => $this->relates,
-          'media' => $mediaResource
+          'media' => $mediaResource,
+          'status' => $this->status,
+          'status_str' => $this->status ? 'Activo' : 'Desactivado'
         ];
     }
 }

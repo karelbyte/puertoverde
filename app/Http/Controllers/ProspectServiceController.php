@@ -73,6 +73,8 @@ class ProspectServiceController extends Controller
                 'annual_kilowatt_round'=> $request->annual_kilowatt_round,
                 'annual_cost_round'=> $request->annual_cost_round,
                 'dls_change' => $request->dls_change,
+                'total_annual' => $request->total_annual,
+                'total_kwh' =>  $request->total_kwh,
                 'status' => 'prospect',
             ]);
 
@@ -113,6 +115,8 @@ class ProspectServiceController extends Controller
                 'annual_kilowatt_round'=> $request->annual_kilowatt_round,
                 'annual_cost_round'=> $request->annual_cost_round,
                 'dls_change' => $request->dls_change,
+                'total_annual' => $request->total_annual,
+                'total_kwh' =>  $request->total_kwh,
             ])->save();
 
             $clientService->consumptions()->delete();
@@ -215,5 +219,53 @@ class ProspectServiceController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function combined(Request $request) {
+
+        try {
+
+            $clientService = ClientService::create([
+                'user_id' => auth()->user()->id,
+                'folio' => $this->nextFolio(),
+                'rate' =>  '',
+                'client_id' => $request->client_id,
+                'created_at' => now(),
+                'number_service'=> 'Combinada',
+                'average_cost'=> 0,
+                'annual_kilowatt'=> 0,
+                'annual_cost'=> 0,
+                'required_units'=> 0,
+                'units'=> 0,
+                'combined' => 1,
+                'panel_capacity'=> 0,
+                'irradiation'=> 4.5,
+                'annual_kilowatt_round'=> 0,
+                'annual_cost_round'=> 0,
+                'dls_change' => 0,
+                'status' => 'prospect',
+                'total_annual' => 0,
+                'total_kwh' =>  0,
+            ]);
+
+            $services  = ClientService::whereIn('id', $request->ids)->get();
+
+            $consumptions  =  $services->map(function ($item) {
+                return [
+                    'period' =>  $item->number_service,
+                    'kwh' =>  $item->annual_kilowatt,
+                    'consumption' =>  $item->annual_cost,
+                ];
+            });
+
+            $clientService->consumptions()->createMany($consumptions);
+
+            return new ClientServiceResource($clientService);
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+
     }
 }

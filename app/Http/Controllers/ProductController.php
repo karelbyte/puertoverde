@@ -29,7 +29,8 @@ class ProductController extends Controller
             $data = Product::with(['prices', 'providers', 'relates'])
                      ->template($request->template)
                      ->filter($request->name)
-                     ->type($request->type);
+                     ->type($request->type)
+                     ->status($request->status);
 
             if (!$request->list) {
                 list($take, $skip) = $this->getPagesConfig($request);

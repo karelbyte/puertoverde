@@ -93,10 +93,18 @@
      @endif
      <div style="margin-top: 20px;font-size: 22px;"><b>2. ANÁLISIS DE FACTURACIÓN DEL CLIENTE</b></div>
      <div style="padding: 10px 50px 10px 20px">
-         <span style="font-size: 22px; text-align: justify;">En la siguiente tabla se muestra el análisis y la facturación del usuario  <b>{{$data->client->name}}</b> del ultimo año comprendida en el
+         @if ($data->combined)
+             <span style="font-size: 22px; text-align: justify;">En la siguiente tabla se muestra el análisis y la facturación del usuario  <b>{{$data->client->name}}</b> del ultimo año con los servicios
+             @foreach($data->consumptions as $consumption)  <b>{{$consumption->period}}</b> @endforeach  . De estos gastos el precio por kWh  de cada mes servirán como base para el análisis de
+             los ahorros económicos para la generación de energía mediante el sistema fotovoltaico.
+         </span>
+         @else
+             <span style="font-size: 22px; text-align: justify;">En la siguiente tabla se muestra el análisis y la facturación del usuario  <b>{{$data->client->name}}</b> del ultimo año comprendida en el
              periodo del <b>{{$data->consumptionFirstPeriod()->period}}</b> al  <b>{{$data->consumptionLastPeriod()->period}}</b>. De estos gastos el precio por kWh  de cada mes servirán como base para el análisis de
              los ahorros económicos para la generación de energía mediante el sistema fotovoltaico.
          </span>
+         @endif
+
      </div>
      @if ($data->quotes->count() > 10 || $rows > 4)
          <br><br><br>
@@ -109,7 +117,11 @@
            </tr>
            </thead>
            <tr>
-               <td><b>PERIODOS</b></td>
+               @if ($data->combined)
+               <td><b>NO DE SERVICIOS</b></td>
+               @else
+                   <td><b>PERIODOS</b></td>
+               @endif
                <td><b>kWh</b></td>
                <td><b>FACTURACION</b></td>
            </tr>
@@ -152,13 +164,22 @@
 
          </table>
      </div>
-     @if ($data->consumptions->count() == 6)
-     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-      @else
-         <br><br><br><br><br><br><br><br><br><br>
-         <br><br><br><br><br><br><br><br><br>
-         <br><br><br><br><br><br><br><br><br>
+     @if (!$data->combined)
+         @if ($data->consumptions->count() == 6)
+             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+         @else
+             <br><br><br><br><br><br><br><br><br><br>
+             <br><br><br><br><br><br><br><br><br>
+             <br><br><br><br><br><br><br><br><br>
+         @endif
+     @else
+         @if ($data->consumptions->count() == 6)
+             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+         @else
+             <br><br><br><br><br><br><br><br><br><br><br><br>
+         @endif
      @endif
+
      @if ($data->quotes->count() > 10 || $rows > 4)
          <br><br><br>
      @endif
@@ -300,21 +321,19 @@
     <div style="display: block; width: 100%">
         <div style="font-size: 18px; width: 40%; float: left; text-align: center">
             ASESOR DE VENTAS PUERTO VERDE
+            <div style="font-size: 18px; margin-top: 10px">
+                @if ($data->sellers)
+                    @foreach($data->sellers as $seller)
+                        <p>{{strtoupper($seller->name)}}</p>
+                    @endforeach
+                @endif
+            </div>
         </div>
         <div style="width: 18%; float: left; text-align: center; color:transparent">a</div>
         <div style="font-size: 20px; width: 40%; float: left;  text-align: center; color:black">
             RECIBIDO
         </div>
     </div>
-     <br><br>
-     <div style="display: block; width: 100%;">
-         <div style="font-size: 18px; width: 40%; float: left; text-align: left">
-           @if ($data->sellers)
-               @foreach($data->sellers as $seller)
-                   <p>{{$seller->name}}</p>
-                 @endforeach
-             @endif
-         </div>
-     </div>
+
     </body>
 </html>

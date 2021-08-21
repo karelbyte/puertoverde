@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('price_id')->nullable();
             $table->unsignedBigInteger('measure_id')->nullable();
             $table->string('description', 1000)->nullable();
+            $table->boolean('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

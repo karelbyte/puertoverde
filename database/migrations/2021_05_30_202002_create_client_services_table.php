@@ -24,6 +24,8 @@ class CreateClientServicesTable extends Migration
             $table->bigInteger('annual_kilowatt')->nullable();
             $table->bigInteger('annual_kilowatt_round')->nullable();
             $table->double('annual_cost')->nullable();
+            $table->double('total_annual')->nullable();
+            $table->double('total_kwh')->nullable();
             $table->bigInteger('required_units')->nullable();
             $table->bigInteger('units')->nullable();
             $table->boolean('combined')->nullable();
