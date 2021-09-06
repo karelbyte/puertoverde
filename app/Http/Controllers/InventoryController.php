@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Traits\PagesTrait;
 use App\Http\Resources\InventoryCollection;
-use App\Http\Resources\ReceiptCollection;
 use App\Models\Inventory;
-use App\Models\Receipt;
 use Illuminate\Http\Request;
-use App\Http\Resources\Receipt as ReceiptResource;
+use App\Http\Resources\Inventory as InventoryResource;
 use Exception;
-use Illuminate\Support\Carbon;
+
 
 
 class InventoryController extends Controller
@@ -49,20 +47,40 @@ class InventoryController extends Controller
     {
         try {
 
-            $receipt =  Receipt::find($id);
+            $inventory =  Inventory::find($id);
 
-            $receipt->fill([
-                'moment' => Carbon::parse($request->moment),
-                'document' => $request->document,
-                'note' => $request->document,
-            ]);
+            $inventory->fill([
+                'min' => $request->min,
+            ])->save();
 
-            $receipt->items()->delete();
+            return new InventoryResource($inventory);
 
-            $receipt->items()->createMany($request->items);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
+
+    public function historyDoc($id)
+    {
+        try {
+
+            $data =  Inventory::with(['details' => function($q) {
+                $q->orderBy('created_at', 'desc');
+            }, 'details.documentable', 'product'])
+                ->where('id', $id)
+                ->first();
 
 
-            return new ReceiptResource($receipt);
+            $view  = view('inventory-history', compact('data'))->render();
+
+            $footer = view('footer', compact('data'))->render();
+
+
+            $pdf = \PDF::loadHTML( $view )
+                ->setOption('footer-html', $footer);
+
+            return $pdf->inline('recepcion - '.$data->document .'.pdf');
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

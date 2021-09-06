@@ -30,11 +30,16 @@ class ClientService extends Model
           'total_kwh',
           'dls_change',
           'status',
-          'note'
+          'note',
+          'installation_id' ,
+          'apply_inventory',
+          'periods'
     ];
 
     protected $casts = [
-        'combined' => 'boolean'
+        'combined' => 'boolean',
+        'apply_inventory' => 'boolean',
+        'periods' => 'boolean'
     ];
 
     public function scopeFreeForAll($query) {
@@ -114,12 +119,16 @@ class ClientService extends Model
         $day = ($this->panel_capacity * $this->irradiation) / 1000;
         $month = $day * 30;
         $biMonth = $month * 2;
-        $year =  $month * 12;
+   //     $year =  $month * 12;
         $factor = $biMonth;
         if ($this->consumptions->count() == 12) {
-            $factor = $year;
+            $factor =  $month;
         }
         return $factor * $this->units;
+    }
+
+    public function countperiods() {
+      return  $this->consumptions->count() == 12;
     }
 
     public function totalDls () {

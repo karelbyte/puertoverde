@@ -17,6 +17,9 @@ class Inventory extends Model
         'min'
     ];
 
+    public function details () {
+        return $this->hasMany(Documentable::class);
+    }
 
     public function product () {
         return $this->belongsTo(Product::class);

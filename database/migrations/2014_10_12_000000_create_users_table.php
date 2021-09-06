@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->boolean('seller')->default(1); //office, sale
             $table->boolean('free_for_all')->default(0);
             $table->boolean('admin')->default(0);
+            $table->boolean('installer')->default(0);
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

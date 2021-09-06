@@ -29,6 +29,10 @@ class Product extends Model implements HasMedia
         'status' => 'boolean'
     ];
 
+    public function inventory () {
+        return $this->hasOne(Inventory::class);
+    }
+
     public function measure () {
         return $this->belongsTo(Measure::class);
     }

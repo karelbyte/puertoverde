@@ -36,6 +36,10 @@ class Permissions extends Seeder
                 'value' => 'installations'
             ],
             [
+                'name' => 'Cuadrillas',
+                'value' => 'teams'
+            ],
+            [
                 'name' => 'Almacenes',
                 'value' => 'stock'
             ],

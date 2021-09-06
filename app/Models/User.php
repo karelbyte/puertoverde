@@ -27,7 +27,8 @@ class User extends Authenticatable
         'seller',
         'manager_percentage',
         'manager_price',
-        'free_for_all'
+        'free_for_all',
+        'installer',
     ];
 
     /**
@@ -52,7 +53,8 @@ class User extends Authenticatable
         'seller' => 'boolean',
         'manager_percentage' => 'boolean',
         'manager_price' => 'boolean',
-        'free_for_all' => 'boolean'
+        'free_for_all' => 'boolean',
+        'installer' => 'boolean'
     ];
 
     public function scopeFilter($query, $pattern) {

@@ -14,6 +14,7 @@ use App\Http\Controllers\ProspectServiceController;
 use App\Http\Controllers\ClientGalleryController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InventoryFixController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,11 +38,15 @@ Route::middleware('auth:api')->group(function () {
     Route::get('products/xls', [ProductController::class, 'export']);
     Route::get('settings/folio', [SettingController::class, 'getNextFolio']);
     Route::get('settings/current/change', [SettingController::class, 'getCurrentMoneyChange']);
+    Route::get('settings/get/{key}', [SettingController::class, 'getSetting']);
     Route::get('receipts/inventories/{id}', [ReceiptController::class, 'setToInventories']);
+    Route::get('inventories-fixes/inventories/{id}', [InventoryFixController::class, 'setToInventories']);
+    Route::get('clients-services/inventories/{id}', [ClientServiceController::class, 'setToInventories']);
 
     Route::post('prospect-services/create/client', [ProspectServiceController::class, 'createClient']);
     Route::post('prospect-services/combine', [ProspectServiceController::class, 'combined']);
     Route::post('products/file', [ProductController::class, 'storeFile']);
+    Route::post('products/price/add', [ProductController::class, 'addPriceToProduct']);
 
     Route::resource('clients', ClientController::class);
     Route::resource('prospect-services', ProspectServiceController::class);
@@ -54,6 +59,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('receipts', ReceiptController::class);
+    Route::resource('inventories-fixes', InventoryFixController::class);
     Route::resource('inventories', InventoryController::class);
 });
 

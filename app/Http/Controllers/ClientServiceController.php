@@ -6,6 +6,7 @@ use App\Http\Controllers\Traits\SettingsTrait;
 use App\Http\Resources\ClientServiceCollection;
 use App\Models\Client;
 use App\Models\ClientService;
+use App\Models\Inventory;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Resources\ClientService as ClientServiceResource;
@@ -135,10 +136,6 @@ class ClientServiceController extends Controller
 
             $data =  ClientService::where('id', $id)->first();
 
-           /* if ($data->status == 'new_client') {
-                return $this->quoteProspect($data);
-            }*/
-
             if ($data->number_service) {
                 return $this->quoteProspect($data);
             }
@@ -188,6 +185,44 @@ class ClientServiceController extends Controller
         return $pdf->inline('cotizacion.pdf');
     }
 
+
+    public function setToInventories($id)
+    {
+        try {
+
+            $service =  ClientService::with([
+                'consumptions',
+                'sellers',
+                'quotes',
+                'quotes.measure'
+            ])->where('id', $id)->first();
+
+            foreach ( $service->quotes as $item) {
+
+                $inventory = Inventory::where('product_id', $item->product_id)->first();
+                $inventory->quantity = $inventory->quantity - $item->quantity;
+                $inventory->save();
+
+                $inventory->details()->create([
+                    'documentable_type' => ClientService::class,
+                    'documentable_id' => $service->id,
+                    'quantity' => -$item->quantity,
+                    'total' =>  $inventory->quantity
+                ]);
+            }
+
+            $service->fill([
+                'apply_inventory' => 1
+            ])->save();
+
+
+            return new ClientServiceResource($service);
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
 
 
 }

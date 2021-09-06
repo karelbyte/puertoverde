@@ -35,6 +35,9 @@ class CreateClientServicesTable extends Migration
             $table->double('irradiation')->nullable();
             $table->string('note', 1000)->nullable();
             $table->string('status')->default('prospect'); // quote_prospect, single_quote_prospect, quote_client, single_quote_client, quote, single_quote
+            $table->bigInteger('installation_id')->nullable();
+            $table->tinyInteger('apply_inventory')->default(0);
+            $table->tinyInteger('periods')->default(0);
             $table->timestamps();
         });
     }

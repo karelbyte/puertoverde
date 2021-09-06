@@ -76,6 +76,7 @@ class ProspectServiceController extends Controller
                 'total_annual' => $request->total_annual,
                 'total_kwh' =>  $request->total_kwh,
                 'status' => 'prospect',
+                'periods' =>  $request->periods,
             ]);
 
             $clientService->consumptions()->createMany($request->consumptions);
@@ -117,6 +118,7 @@ class ProspectServiceController extends Controller
                 'dls_change' => $request->dls_change,
                 'total_annual' => $request->total_annual,
                 'total_kwh' =>  $request->total_kwh,
+                'periods' =>  $request->periods,
             ])->save();
 
             $clientService->consumptions()->delete();

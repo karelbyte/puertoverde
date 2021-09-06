@@ -6,6 +6,7 @@ use App\Exports\ProductsExport;
 use App\Http\Controllers\Traits\PagesTrait;
 use App\Http\Resources\Price;
 use App\Http\Resources\ProductCollection;
+use App\Models\Percent;
 use App\Models\Product;
 use App\Models\ProductPrice;
 use App\Models\ProductProvider;
@@ -26,7 +27,7 @@ class ProductController extends Controller
 
         try {
 
-            $data = Product::with(['prices', 'providers', 'relates'])
+            $data = Product::with(['prices', 'providers', 'relates', 'inventory'])
                      ->template($request->template)
                      ->filter($request->name)
                      ->type($request->type)
@@ -245,5 +246,28 @@ class ProductController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
+    }
+
+    public function addPriceToProduct(Request $request) {
+
+        $percent = Percent::where('default', 1)->first();
+
+        if ($percent) {
+            $percentage = $percent->percentage;
+            $price = ((double)$request->sale_price / (double) (1 . '.'. $percentage)) ;
+          //  return response()->json(['data' => $price, 'raro' =>  (double) (1 . '.' .$percentage)]);
+        }
+        else {
+            $percentage = 0;
+            $price = $request->sale_price ;
+        }
+        $productPrice = ProductPrice::create([
+           'percent_apply' => $percentage,
+           'price' => $price,
+           'product_id' => $request->product_id,
+           'sale_price' => $request->sale_price
+         ]);
+
+         return new Price( $productPrice);
     }
 }

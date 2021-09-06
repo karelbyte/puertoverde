@@ -45,24 +45,25 @@ class Product extends JsonResource
           }
 
           return [
-          'id' => $this->id,
-          'name' => $this->name,
-          'code' => $this->code,
-          'description' => $this->hasAttribute('description'),
-          'type' => $this->hasAttribute('type'),
-          'provider' => $this->provider,
-          'price' => $this->price,
-          'type_description' => $this->type == 'inventory' ? 'Producto' : 'Servicio',
-          'measure_id' => $this->measure_id,
-          'measure' => new Measure($this->measure) ,
-          'created_at' => $this->created_at->format('d-m-Y'),
-          'prices' => Price::collection($this->prices),
-          'providers' => Provider::collection($this->providers),
-          'default_price' => $defaultPrice,
-          'relates' => $this->relates,
-          'media' => $mediaResource,
-          'status' => $this->status,
-          'status_str' => $this->status ? 'Activo' : 'Desactivado'
+              'id' => $this->id,
+              'name' => $this->name,
+              'code' => $this->code,
+              'description' => $this->hasAttribute('description'),
+              'type' => $this->hasAttribute('type'),
+              'provider' => $this->provider,
+              'price' => $this->price,
+              'type_description' => $this->type == 'inventory' ? 'Producto' : 'Servicio',
+              'measure_id' => $this->measure_id,
+              'measure' => new Measure($this->measure) ,
+              'created_at' => $this->created_at->format('d-m-Y'),
+              'prices' => Price::collection($this->prices),
+              'providers' => Provider::collection($this->providers),
+              'default_price' => $defaultPrice,
+              'relates' => $this->relates,
+              'media' => $mediaResource,
+              'status' => $this->status,
+              'status_str' => $this->status ? 'Activo' : 'Desactivado',
+              'inventory' => $this->inventory
         ];
     }
 }

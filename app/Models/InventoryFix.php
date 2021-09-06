@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Receipt extends Model
+class InventoryFix extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
         'moment',
+        'type', //add, discount
         'document',
         'note',
         'amount',
@@ -24,13 +25,12 @@ class Receipt extends Model
         'moment' => 'datetime',
     ];
 
-
     public function user () {
         return $this->belongsTo(User::class);
     }
 
     public function items () {
-        return $this->hasMany(ReceiptItems::class);
+        return $this->hasMany(InventoryFixItem::class);
     }
 
 
@@ -39,7 +39,6 @@ class Receipt extends Model
         if (!$pattern) {
             return;
         }
-
 
         $users = User::where('name', 'like', '%'.$pattern.'%')->select('id');
 

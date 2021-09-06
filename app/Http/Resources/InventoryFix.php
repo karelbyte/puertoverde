@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Facades\Log;
 
-class Receipt extends JsonResource
+class InventoryFix extends JsonResource
 {
     use AdvancedResourceTrait;
     /**
@@ -28,6 +28,7 @@ class Receipt extends JsonResource
               'document' => $this->document,
               'status' => $this->status,
               'note' => $this->note,
+              'type' => $this->type == 'add' ? 'ENTRADA' : 'SALIDA',
               'status_show' => $this->status == 'in-progress' ? 'Edicion' : 'Aplicada',
               'items' => new ReceiptItemCollection($this->items)
         ];

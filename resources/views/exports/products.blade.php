@@ -16,7 +16,8 @@
         <th>DESCRIPCION</th>
         <th>TIPO</th>
         <th>UNIDA DE MEDIDA</th>
-        <th>PRECIO</th>
+        <th>PRECIO DE COMPRA</th>
+        <th>PRECIO DE VENTA</th>
     </tr>
     </thead>
     <tbody>
@@ -28,6 +29,7 @@
             <td>{{ $product['type'] }}</td>
             <td>{{ $product['measure'] }}</td>
             <td>{{ $product['price']}}</td>
+            <td>{{ $product['sale_price']}}</td>
         </tr>
     @endforeach
     </tbody>

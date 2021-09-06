@@ -17,6 +17,13 @@ class SettingController extends Controller
 
             $settings = Setting::all();
 
+            $settings = $settings->map(function ($set) {
+                if ($set->type == 'toggle') {
+                    $set->value =(boolean) $set->value;
+                }
+                return $set;
+            });
+
             return  [
                 'total' => 0,
                 'data' =>  $settings,
@@ -36,6 +43,26 @@ class SettingController extends Controller
             $setting->fill($request->all())->save();
 
             return http_response_code(200);
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getSetting($key) {
+        try {
+
+            $setting = Setting::where('key', $key)->first();
+            $value = '';
+            switch ($setting->type) {
+                case 'input':
+                   $value = is_numeric($setting->value) ?  is_double($setting->value) ? (double) $setting->value : (int)  $setting->value: $setting->value;
+                   break;
+                case 'toggle':
+                   $value = (boolean) $setting->value;
+            }
+
+            return response()->json(['data' => $value], 200);
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

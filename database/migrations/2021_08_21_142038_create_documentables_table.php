@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSettingsTable extends Migration
+class CreateDocumentablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('documentables', function (Blueprint $table) {
             $table->id();
-            $table->string('key');
-            $table->string('type');
-            $table->string('description');
-            $table->string('value');
+            $table->unsignedBigInteger('inventory_id');
+            $table->string('documentable_type');
+            $table->unsignedBigInteger('documentable_id');
+            $table->bigInteger('quantity');
+            $table->bigInteger('total')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('documentables');
     }
 }

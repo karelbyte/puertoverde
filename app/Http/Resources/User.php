@@ -24,6 +24,7 @@ class User extends JsonResource
           'manager_percentage' => $this->manager_percentage,
           'manager_price' => $this->manager_price,
           'free_for_all' => $this->free_for_all,
+          'installer' => $this->installer,
           'permissions' => Permission::collection($this->permissions)
         ];
     }

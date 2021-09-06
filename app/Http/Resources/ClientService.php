@@ -40,7 +40,10 @@ class ClientService extends JsonResource
             'total_annual' =>  $this->total_annual,
             'total_kwh' =>  $this->total_kwh,
             'status' => $this->status,
-            'note' => $this->note
+            'note' => $this->note,
+            'installation_id' => $this->installation_id,
+            'apply_inventory' => $this->apply_inventory,
+            'periods' => $this->periods,
         ];
     }
 }

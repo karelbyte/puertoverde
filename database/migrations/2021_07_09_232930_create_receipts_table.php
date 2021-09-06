@@ -13,7 +13,7 @@ class CreateReceiptsTable extends Migration
             $table->bigInteger('user_id');
             $table->date('moment');
             $table->string('document');
-            $table->string('note', 1000);
+            $table->string('note', 1000)->nullable();
             $table->double('amount');
             $table->string('status'); // in-progress, apply
             $table->timestamps();

@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Controllers\Traits\PagesTrait;
+use App\Http\Resources\InventoryFixCollection;
 use App\Http\Resources\ReceiptCollection;
 use App\Models\Inventory;
+use App\Models\InventoryFix;
 use App\Models\Receipt;
 use Illuminate\Http\Request;
-use App\Http\Resources\Receipt as ReceiptResource;
+use App\Http\Resources\InventoryFix as InventoryFixResource;
 use Exception;
 use Illuminate\Support\Carbon;
 
 
-class ReceiptController extends Controller
+class InventoryFixController extends Controller
 {
     use PagesTrait;
 
@@ -22,7 +24,7 @@ class ReceiptController extends Controller
 
         try {
 
-            $data = Receipt::with(['items', 'items.product', 'user'])
+            $data = InventoryFix::with(['items', 'items.product', 'user'])
                      ->filter($request->name);
 
             list($take, $skip) = $this->getPagesConfig($request);
@@ -33,7 +35,7 @@ class ReceiptController extends Controller
 
             return  [
                 'total' => $total,
-                'data' => new ReceiptCollection($list),
+                'data' =>  new InventoryFixCollection($list),
             ];
 
         } catch (Exception $e) {
@@ -46,19 +48,20 @@ class ReceiptController extends Controller
     public function store(Request $request)
     {
         try {
-            $receipt = Receipt::create([
+            $inventoryFix = InventoryFix::create([
                 'user_id' => auth()->user()->id,
                 'moment' => Carbon::parse($request->moment),
                 'document' => $request->document,
                 'note' => $request->note,
+                'type' => $request->input('type.value'),
                 'amount' => 0,
                 'status' => 'in-progress'
             ]);
 
-            $receipt->items()->createMany($request->items);
+            $inventoryFix->items()->createMany($request->items);
 
 
-            return new ReceiptResource($receipt);
+            return new  InventoryFixResource($inventoryFix);
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -70,20 +73,20 @@ class ReceiptController extends Controller
     {
         try {
 
-            $receipt =  Receipt::find($id);
+            $inventoryFix =  InventoryFix::find($id);
 
-            $receipt->fill([
+            $inventoryFix->fill([
                 'moment' => Carbon::parse($request->moment),
                 'document' => $request->document,
                 'note' => $request->note,
             ])->save();
 
-            $receipt->items()->delete();
+            $inventoryFix->items()->delete();
 
-            $receipt->items()->createMany($request->items);
+            $inventoryFix->items()->createMany($request->items);
 
 
-            return new ReceiptResource($receipt);
+            return new InventoryFixResource($inventoryFix);
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -97,13 +100,13 @@ class ReceiptController extends Controller
 
         try {
 
-            $receipt =  Receipt::where('id', $id)->first();
+            $inventoryFix =  InventoryFix::where('id', $id)->first();
 
-            $receipt->items()->delete();
+            $inventoryFix->items()->delete();
 
-            $receipt->delete();
+            $inventoryFix->delete();
 
-            return response()->json(['data' => 'Recepcion eliminada con exito!']);
+            return response()->json(['data' => 'Ajuste eliminado con exito!']);
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -116,46 +119,41 @@ class ReceiptController extends Controller
     {
         try {
 
-            $receipt =  Receipt::find($id);
+            $inventoryFix =  InventoryFix::find($id);
 
-            $receipt->load('items');
+            $inventoryFix->load('items');
 
-            foreach ($receipt->items as $item) {
+            foreach ($inventoryFix->items as $item) {
 
                 $inventory = Inventory::where('product_id', $item->product_id)->first();
 
                 if ( $inventory) {
-                    $inventory->quantity  =  $inventory->quantity + $item->quantity;
+                    $inventory->quantity  = $inventoryFix->type == 'add' ? $inventory->quantity + $item->quantity :  $inventory->quantity - $item->quantity;
                     $inventory->save();
-
-                    $inventory->details()->create([
-                        'documentable_type' => Receipt::class,
-                        'documentable_id' => $receipt->id,
-                        'quantity' => $item->quantity,
-                        'total' => $inventory->quantity
-                    ]);
-
                 } else {
-                   $inventory = Inventory::create([
-                        'product_id' =>  $item->product_id,
-                        'quantity' =>  $item->quantity,
-                        'min' => 0
-                    ]);
-                   $inventory->details()->create([
-                       'documentable_type' => Receipt::class,
-                       'documentable_id' => $receipt->id,
-                       'quantity' => $item->quantity,
-                       'total' => $item->quantity
-                   ]);
+                   if ( $inventoryFix->type == 'add') {
+                       $inventory = Inventory::create([
+                           'product_id' =>  $item->product_id,
+                           'quantity' =>  $item->quantity,
+                           'min' => 0
+                       ]);
+                   }
                 }
+
+                $inventory->details()->create([
+                    'documentable_type' =>  InventoryFix::class,
+                    'documentable_id' => $inventoryFix->id,
+                    'quantity' => $inventoryFix->type == 'add' ? $item->quantity : - $item->quantity,
+                    'total' => $inventory->quantity
+                ]);
             }
 
-            $receipt->fill([
+            $inventoryFix->fill([
                 'status' => 'apply'
             ])->save();
 
 
-            return new ReceiptResource($receipt);
+            return new InventoryFixResource($inventoryFix);
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -164,18 +162,18 @@ class ReceiptController extends Controller
     }
 
 
-    public function receiptDoc($id)
+    public function inventoryFixDoc($id)
     {
 
         try {
 
-            $data =  Receipt::with(['items', 'items.product', 'items.product.measure', 'user'])
+            $data =  InventoryFix::with(['items', 'items.product', 'items.product.measure', 'user'])
                 ->where('id', $id)
                 ->first();
 
            // return $data;
 
-            $view  = view('receipt', compact('data'))->render();
+            $view  = view('inventory-fix', compact('data'))->render();
 
             $footer = view('footer', compact('data'))->render();
 
@@ -183,7 +181,7 @@ class ReceiptController extends Controller
             $pdf = \PDF::loadHTML( $view )
                 ->setOption('footer-html', $footer);
 
-            return $pdf->inline('recepcion - '.$data->document .'.pdf');
+            return $pdf->inline('ajuste - '.$data->document .'.pdf');
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

@@ -27,14 +27,16 @@ class ProductsExport implements FromView
             ->get();
 
         $products = $products->map(function ($product) {
-           $price = $product->price->sale_price ?? $product->prices[0]->sale_price;
+           $salePrice = $product->price->sale_price ?? $product->prices[0]->sale_price;
+           $price = $product->price->price ?? $product->prices[0]->price;
            return [
                 'code' => $product->code,
                 'name' => $product->name,
                 'description' => $product->description,
                 'type' => $product->gettype(),
                 'measure' => $product->measure->name,
-                'price' =>  number_format($price, 2)
+                'price' =>  number_format($price, 2, '.', ','),
+                'sale_price' =>  number_format($salePrice, 2, '.', ',')
            ];
         });
 

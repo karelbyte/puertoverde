@@ -155,11 +155,13 @@
              </tr>
            <tr>
                <td><b>kWh ANUAL</b></td>
-               <td><b>{{number_format($data->consumptionskWhTotal(), 0, '.', ',')}}</b></td>
+           {{--   <td><b>{{number_format($data->consumptionskWhTotal(), 0, '.', ',')}}</b></td> --}}
+              <td><b>{{number_format($data->total_kwh, 0, '.', ',')}}</b></td>
            </tr>
            <tr>
                <td><b>FACTURACION ANUAL</b></td>
-               <td><b>$ {{number_format($data->consumptionsTotal(), 2, '.', ',')}}</b></td>
+             {{--  <td><b>$ {{number_format($data->consumptionsTotal(), 2, '.', ',')}}</b></td>--}}
+               <td><b>$ {{number_format($data->total_annual, 2, '.', ',')}}</b></td>
            </tr>
 
          </table>
@@ -209,7 +211,11 @@
                     <td><b>{{number_format($data->units, 0, '.', ',')}}</b></td>
                 </tr>
                 <tr>
-                    <td class="back-green"><b>PRODUCCIÓN GARANTIZADA EN BASE A UNIDADES ADQUIRIDAS PROMEDIO BIMESTRAL EN kWh </b></td>
+                    @if ($data->countperiods())
+                     <td class="back-green"><b>PRODUCCIÓN GARANTIZADA EN BASE A UNIDADES ADQUIRIDAS PROMEDIO MENSUAL EN kWh </b></td>
+                    @else
+                        <td class="back-green"><b>PRODUCCIÓN GARANTIZADA EN BASE A UNIDADES ADQUIRIDAS PROMEDIO BIMESTRAL EN kWh </b></td>
+                    @endif
                     <td><b>{{number_format($data->productionGuaranteed(), 0, '.', ',')}}</b> kWh</td>
                 </tr>
             </table>
