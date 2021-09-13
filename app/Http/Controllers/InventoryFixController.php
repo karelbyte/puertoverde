@@ -143,6 +143,7 @@ class InventoryFixController extends Controller
                 $inventory->details()->create([
                     'documentable_type' =>  InventoryFix::class,
                     'documentable_id' => $inventoryFix->id,
+                    'type' => 'Ajuste',
                     'quantity' => $inventoryFix->type == 'add' ? $item->quantity : - $item->quantity,
                     'total' => $inventory->quantity
                 ]);

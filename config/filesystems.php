@@ -52,6 +52,13 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'ftp' => [
+            'driver' => 'ftp',
+            'host' => 'ftp.puertoverde.net',
+            'username' => 'crmftp@crm.puertoverde.net',
+            'password' => 'crmftp2021*-',
+        ],
+
     ],
 
     /*

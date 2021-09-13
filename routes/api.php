@@ -27,9 +27,15 @@ use App\Http\Controllers\InventoryFixController;
 */
 
 
+
 Route::post('users/login', [UserController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
+
+    Route::get('/backup', function () {
+        \Illuminate\Support\Facades\Artisan::call('backup:run --only-db');
+        return http_response_code(200);
+    });
 
     Route::delete('products/file/delete/{id}', [ProductController::class, 'deleteFile']);
 

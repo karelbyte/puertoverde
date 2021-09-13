@@ -67,10 +67,11 @@ class InventoryController extends Controller
 
             $data =  Inventory::with(['details' => function($q) {
                 $q->orderBy('created_at', 'desc');
-            }, 'details.documentable', 'product'])
+            }, 'details.documentable', 'details.documentable.user', 'product'])
                 ->where('id', $id)
                 ->first();
 
+            //return  $data;
 
             $view  = view('inventory-history', compact('data'))->render();
 
@@ -80,7 +81,7 @@ class InventoryController extends Controller
             $pdf = \PDF::loadHTML( $view )
                 ->setOption('footer-html', $footer);
 
-            return $pdf->inline('recepcion - '.$data->document .'.pdf');
+            return $pdf->inline('historico - '.$data->product->nname .'.pdf');
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

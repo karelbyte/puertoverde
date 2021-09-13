@@ -15,6 +15,7 @@ class Documentable extends Model
         'inventory_id',
         'documentable_type',
         'documentable_id',
+        'type',
         'quantity',
         'total',
     ];

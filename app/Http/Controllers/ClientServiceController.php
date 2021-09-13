@@ -206,6 +206,7 @@ class ClientServiceController extends Controller
                 $inventory->details()->create([
                     'documentable_type' => ClientService::class,
                     'documentable_id' => $service->id,
+                    'type' => 'Servicio',
                     'quantity' => -$item->quantity,
                     'total' =>  $inventory->quantity
                 ]);

@@ -42,6 +42,10 @@ class ClientService extends Model
         'periods' => 'boolean'
     ];
 
+    public function user () {
+        return $this->belongsTo(User::class);
+    }
+
     public function scopeFreeForAll($query) {
         $user = auth()->user();
         if ($user->free_for_all) {

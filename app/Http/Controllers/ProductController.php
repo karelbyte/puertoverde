@@ -255,7 +255,6 @@ class ProductController extends Controller
         if ($percent) {
             $percentage = $percent->percentage;
             $price = ((double)$request->sale_price / (double) (1 . '.'. $percentage)) ;
-          //  return response()->json(['data' => $price, 'raro' =>  (double) (1 . '.' .$percentage)]);
         }
         else {
             $percentage = 0;
@@ -263,7 +262,7 @@ class ProductController extends Controller
         }
         $productPrice = ProductPrice::create([
            'percent_apply' => $percentage,
-           'price' => $price,
+           'price' => number_format($price, 2),
            'product_id' => $request->product_id,
            'sale_price' => $request->sale_price
          ]);

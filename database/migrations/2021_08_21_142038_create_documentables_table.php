@@ -18,6 +18,7 @@ class CreateDocumentablesTable extends Migration
             $table->unsignedBigInteger('inventory_id');
             $table->string('documentable_type');
             $table->unsignedBigInteger('documentable_id');
+            $table->string('type')->nullable();
             $table->bigInteger('quantity');
             $table->bigInteger('total')->nullable();
             $table->timestamps();

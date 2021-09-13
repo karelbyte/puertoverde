@@ -131,6 +131,7 @@ class ReceiptController extends Controller
                     $inventory->details()->create([
                         'documentable_type' => Receipt::class,
                         'documentable_id' => $receipt->id,
+                        'type' => 'Recepcion',
                         'quantity' => $item->quantity,
                         'total' => $inventory->quantity
                     ]);
@@ -144,6 +145,7 @@ class ReceiptController extends Controller
                    $inventory->details()->create([
                        'documentable_type' => Receipt::class,
                        'documentable_id' => $receipt->id,
+                       'type' => 'Recepcion',
                        'quantity' => $item->quantity,
                        'total' => $item->quantity
                    ]);
