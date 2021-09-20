@@ -248,6 +248,7 @@ class ProspectServiceController extends Controller
                 'status' => 'prospect',
                 'total_annual' => 0,
                 'total_kwh' =>  0,
+                'periods' => 0
             ]);
 
             $services  = ClientService::whereIn('id', $request->ids)->get();
