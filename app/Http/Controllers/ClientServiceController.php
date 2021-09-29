@@ -4,16 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Traits\SettingsTrait;
 use App\Http\Resources\ClientServiceCollection;
-use App\Models\Client;
 use App\Models\ClientService;
 use App\Models\Inventory;
-use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Resources\ClientService as ClientServiceResource;
 use Exception;
-use Illuminate\Support\Facades\App;
-use Illuminate\View\View;
-use Knp\Snappy\Pdf;
+
 
 class ClientServiceController extends Controller
 {
@@ -110,7 +106,6 @@ class ClientServiceController extends Controller
 
     }
 
-
     public function pagePay()
     {
         try {
@@ -185,7 +180,6 @@ class ClientServiceController extends Controller
         return $pdf->inline('cotizacion.pdf');
     }
 
-
     public function setToInventories($id)
     {
         try {
@@ -223,6 +217,21 @@ class ClientServiceController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
+    }
+
+    public function clone(Request $request) {
+
+        try {
+
+            $clientService =  ClientService::find($request->id);
+
+            $clientService = $clientService->replicateRow();
+
+            return new ClientServiceResource($clientService);
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
 

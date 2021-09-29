@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\Traits\SettingsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class ClientService extends Model
 {
-    use HasFactory;
+    use HasFactory, SettingsTrait;
 
     protected $fillable = [
           'user_id',
@@ -139,4 +141,33 @@ class ClientService extends Model
         return number_format($this->subTotal() + $this->iva(),  2, '.', '');
     }
 
+
+    public function replicateRow()
+    {
+        $clone = $this->replicate();
+
+        $clone->folio = $this->nextFolio();
+        $clone->number_service = $this->number_service . ' (ClON)';
+        $clone->push();
+
+        foreach($this->consumptions as $consumption)
+        {
+            $clone->consumptions()->create($consumption->toArray());
+        }
+
+
+        foreach($this->sellers as $seller)
+        {
+            $clone->sellers()->attach($seller->id);
+        }
+
+        foreach($this->quotes as $quote)
+        {
+            $clone->quotes()->create($quote->toArray());
+        }
+
+        $clone->save();
+
+       return $clone;
+    }
 }

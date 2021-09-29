@@ -154,14 +154,13 @@ class ProspectServiceController extends Controller
 
             $clientService->delete();
 
-            return response()->json(['data' => 'Prospecto eliminado con exito!']);
+            return response()->json(['data' => 'Cotizacion eliminada con exito!']);
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
     }
-
 
     public function quoteDoc($id)
     {
@@ -202,7 +201,6 @@ class ProspectServiceController extends Controller
         }
 
     }
-
 
     public function createClient(Request $request) {
 
@@ -268,7 +266,20 @@ class ProspectServiceController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
 
+    public function clone(Request $request) {
 
+        try {
+
+            $clientService =  ClientService::find($request->id);
+
+            $clientService = $clientService->replicateRow();
+
+            return new ClientServiceResource($clientService);
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

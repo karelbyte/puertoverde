@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClientsExport;
 use App\Http\Controllers\Traits\PagesTrait;
 use App\Http\Resources\ClientCollection;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Resources\Client as ClientResource;
 use Exception;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
 {
@@ -59,8 +61,16 @@ class ClientController extends Controller
 
             $client = Client::where('id', $id)->first();
 
-            $request['user_id'] = auth()->user()->id;
-            $client->fill($request->all())->save();
+            $client->company = $request->company;
+            $client->name = $request->name;
+            $client->email = $request->email;
+            $client->phones = $request->phones;
+            $client->address = $request->address;
+            $client->note = $request->note;
+            $client->save();
+
+          //  $request['user_id'] = auth()->user()->id;
+         //   $client->fill($request->all())->save();
 
             return new ClientResource($client);
 
@@ -89,5 +99,28 @@ class ClientController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+
+    public function export(Request $request)
+    {
+
+        try {
+
+            $type = $request->type == 'lead' ? 'Prospectos' : 'Clientes';
+
+            $moment = now();
+            $fileName =  "{$type}-{$moment}.xlsx";
+
+            Excel::store(new ClientsExport($request->all()), $fileName, 'public');
+
+            $url = url('/');
+
+            return ['data' => "${url}/storage/${fileName}"];
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
     }
 }

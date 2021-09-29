@@ -48,25 +48,28 @@ Route::middleware('auth:api')->group(function () {
     Route::get('receipts/inventories/{id}', [ReceiptController::class, 'setToInventories']);
     Route::get('inventories-fixes/inventories/{id}', [InventoryFixController::class, 'setToInventories']);
     Route::get('clients-services/inventories/{id}', [ClientServiceController::class, 'setToInventories']);
+    Route::get('clients-services/clone/{id}', [ClientServiceController::class, 'clone']);
+    Route::get('clients/xls', [ClientController::class, 'export']);
+    Route::get('prospect-services/clone/{id}', [ProspectServiceController::class, 'clone']);
 
     Route::post('prospect-services/create/client', [ProspectServiceController::class, 'createClient']);
     Route::post('prospect-services/combine', [ProspectServiceController::class, 'combined']);
     Route::post('products/file', [ProductController::class, 'storeFile']);
     Route::post('products/price/add', [ProductController::class, 'addPriceToProduct']);
 
-    Route::resource('clients', ClientController::class);
-    Route::resource('prospect-services', ProspectServiceController::class);
-    Route::resource('clients-gallery', ClientGalleryController::class);
-    Route::resource('clients-services', ClientServiceController::class);
-    Route::resource('providers', ProviderController::class);
-    Route::resource('products', ProductController::class);
-    Route::resource('measures', MeasureController::class);
-    Route::resource('percents', PercentController::class);
-    Route::resource('users', UserController::class);
-    Route::resource('settings', SettingController::class);
-    Route::resource('receipts', ReceiptController::class);
-    Route::resource('inventories-fixes', InventoryFixController::class);
-    Route::resource('inventories', InventoryController::class);
+    Route::apiResource('clients', ClientController::class);
+    Route::apiResource('prospect-services', ProspectServiceController::class);
+    Route::apiResource('clients-gallery', ClientGalleryController::class);
+    Route::apiResource('clients-services', ClientServiceController::class);
+    Route::apiResource('providers', ProviderController::class);
+    Route::apiResource('products', ProductController::class);
+    Route::apiResource('measures', MeasureController::class);
+    Route::apiResource('percents', PercentController::class);
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('settings', SettingController::class);
+    Route::apiResource('receipts', ReceiptController::class);
+    Route::apiResource('inventories-fixes', InventoryFixController::class);
+    Route::apiResource('inventories', InventoryController::class);
 });
 
 

@@ -49,6 +49,15 @@ class Client extends Model implements HasMedia
         $query->orderBy($sort, $order);
     }
 
+    public function scopeType($query, $type) {
+
+        if (!$type) {
+            return;
+        }
+
+        $query->where('type', $type);
+    }
+
 
     public function scopeFilter($query, $pattern) {
 
