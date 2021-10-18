@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Cotizacion</title>
+        <title>PEDIDO</title>
         <!-- Fonts -->
         <style>
             .grid{box-sizing:border-box;display:-webkit-flex;display:-ms-flexbox;display:-webkit-box;display:flex;-webkit-flex:0 1 auto;-ms-flex:0 1 auto;-webkit-box-flex:0;flex:0 1 auto;-webkit-flex-direction:row;-ms-flex-direction:row;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -8px 0 -8px}.grid.grid-nogutter{margin:0}.grid.grid-nogutter>.col{padding:0}.col{box-sizing:border-box;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;-webkit-flex-grow:1;-ms-flex-positive:1;-webkit-box-flex:1;flex-grow:1;-ms-flex-preferred-size:0;-webkit-flex-basis:0;flex-basis:0;max-width:100%;min-width:0;padding:0 8px 0 8px}.col-align-top{-webkit-align-self:flex-start;-ms-flex-item-align:start;align-self:flex-start}.col-align-bottom{align-self:flex-end}.col-align-middle{-webkit-align-self:center;-ms-flex-item-align:center;align-self:center}.col-top{justify-content:flex-start !important;flex-direction:column;display:flex}.col-bottom{justify-content:flex-end !important;flex-direction:column;display:flex}.col-middle{justify-content:center;flex-direction:column;display:flex}.grid-start{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start}.grid-center{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}.grid-end{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end}.grid-around{justify-content:space-around}.grid-between{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.col-first{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.col-last{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}.grid-reverse{-webkit-box-orient:horizontal;-webkit-box-direction:reverse;-ms-flex-direction:row-reverse;flex-direction:row-reverse}.col-fixed{flex:initial}.col-grow-2{flex-grow:2}.col-grow-3{flex-grow:3}.col-grow-4{flex-grow:4}.col-grow-5{flex-grow:5}.col-grow-6{flex-grow:6}.col-grow-7{flex-grow:7}.col-grow-8{flex-grow:8}.col-grow-9{flex-grow:9}.col-grow-10{flex-grow:10}.col-grow-11{flex-grow:11}.col-1{-ms-flex-preferred-size:8.33333%;-webkit-flex-basis:8.33333%;flex-basis:8.33333%;max-width:8.33333%}.col-2{-ms-flex-preferred-size:16.66667%;-webkit-flex-basis:16.66667%;flex-basis:16.66667%;max-width:16.66667%}.col-3{-ms-flex-preferred-size:25%;-webkit-flex-basis:25%;flex-basis:25%;max-width:25%}.col-4{-ms-flex-preferred-size:33.33333%;-webkit-flex-basis:33.33333%;flex-basis:33.33333%;max-width:33.33333%}.col-5{-ms-flex-preferred-size:41.66667%;-webkit-flex-basis:41.66667%;flex-basis:41.66667%;max-width:41.66667%}.col-6{-ms-flex-preferred-size:50%;-webkit-flex-basis:50%;flex-basis:50%;max-width:50%}.col-7{-ms-flex-preferred-size:58.33333%;-webkit-flex-basis:58.33333%;flex-basis:58.33333%;max-width:58.33333%}.col-8{-ms-flex-preferred-size:66.66667%;-webkit-flex-basis:66.66667%;flex-basis:66.66667%;max-width:66.66667%}.col-9{-ms-flex-preferred-size:75%;-webkit-flex-basis:75%;flex-basis:75%;max-width:75%}.col-10{-ms-flex-preferred-size:83.33333%;-webkit-flex-basis:83.33333%;flex-basis:83.33333%;max-width:83.33333%}.col-11{-ms-flex-preferred-size:91.66667%;-webkit-flex-basis:91.66667%;flex-basis:91.66667%;max-width:91.66667%}.col-12{-ms-flex-preferred-size:100%;-webkit-flex-basis:100%;flex-basis:100%;max-width:100%}@media only screen and (max-width: 480px){.col-sm{flex:100%;max-width:100%}}@media only screen and (max-width: 624px){.col-md{flex:100%;max-width:100%}}@media only screen and (max-width: 744px){.col-lg{flex:100%;max-width:100%}}
@@ -48,26 +48,14 @@
     <body>
      <img src="{{asset('asset/pv.png')}}" alt="" style="margin-top: 20px">
      <br><br>
-     <div class="grid">
-         <div class='col col-6' style="font-size: 22px;"><b>1. CLIENTE</b> </div>
-         <div class='col col-6' style="text-align: right; font-size: 22px;">FOLIO:<b>{{$data->folio}}</b>  </div>
-     </div>
+     <h2>PEDIDO</h2>
      <div class="grid">
          <div class='col col-4 pa-100'>
              <div class="back-green" style="padding:6px; font-size: 22px;">
-               <b>NOMBRE:</b>
+               <b>CREADO POR :</b>
              </div>
              <div class="border-black" style="text-align: center; padding:6px; font-size: 22px;">
-                  {{$data->client->company}}
-             </div>
-         </div>
-
-         <div class='col col-3 pa-100'>
-             <div class="back-green" style="padding:6px; font-size: 22px;">
-                <b>CONTACTO:</b>
-             </div>
-             <div class="border-black" style="text-align: center; padding:6px; font-size: 22px;" >
-                 {{$data->client->name}}
+                {{$data->user->name}}
              </div>
          </div>
          <div class='col col-3'>
@@ -78,13 +66,13 @@
              </div>
              <div class='grid grid-nogutter border-black'>
                  <div class='col' style="text-align: right; padding:6px; font-size: 22px;">
-                    <b>{{$data->created_at->format('d/m/Y')}}</b>
+                    <b>{{$data->moment->format('d/m/Y')}}</b>
                  </div>
              </div>
          </div>
      </div>
      <br><br>
-     <div style="margin-top: 20px; font-size: 22px;"><b>2. COTIZACION</b></div>
+     <div style="margin-top: 20px; font-size: 22px;"><b>PRODUCTOS</b></div>
      <div class="grid ">
 
          <div class="col" style="text-align: right">
@@ -93,48 +81,26 @@
                      <td  style="padding: 5px; font-size: 22px;"><b>CANTIDAD</b></td>
                      <td style="padding: 5px; font-size: 22px;"><b>UNIDAD</b></td>
                      <td style="padding: 5px; font-size: 22px;"><b>DESCRIPCIÓN</b></td>
-                     <td style="padding: 5px; font-size: 22px;"><b>P.U</b></td>
-                     <td style="padding: 5px; font-size: 22px;"><b>IMPORTE</b></td>
                  </tr>
-                 @foreach($data->quotes as $quotes)
+                 @foreach($data->items as $item)
                      <tr>
-                         <td style="font-size: 19px;width:60px">{{$quotes->quantity}}</td>
-                         <td style="font-size: 19px;width:60px">{{$quotes->measure->name}}</td>
-                         <td style="font-size: 19px;text-align: left; padding-left: 10px">{{$quotes->description}}</td>
-                         <td style="font-size: 19px;width: 120px ">$ {{number_format($quotes->price, 2, '.', ',')}}</td>
-                         <td style="font-size: 19px;width: 120px "><b>$ {{number_format($quotes->amount, 2, '.', ',')}}</b></td>
+                         <td style="font-size: 19px;width:60px">{{$item->quantity}}</td>
+                         <td style="font-size: 19px;width:60px">{{$item->product->measure->name}}</td>
+                         @if ($item->product->description !== null)
+                             <td style="font-size: 19px;text-align: left; padding-left: 10px">{{$item->product->description}}</td>
+                         @else
+                             <td style="font-size: 19px;text-align: left; padding-left: 10px">{{$item->product->name}}</td>
+                         @endif
                      </tr>
                  @endforeach
              </table>
          </div>
      </div>
-     <div style="display: block; width: 100%; margin-top: 5px">
-         <table style="width:30%; float: right; ">
-             <tr>
-                 <td class="back-green" style="font-size: 22px;"><b>SUBTOTAL</b></td>
-                 <td style="font-size: 22px;"><b>$ {{number_format($data->subtotal(), 2, '.', ',')}}</b></td>
-             </tr>
-             <tr>
-                 <td class="back-green" style="font-size: 22px;"><b>IVA 16%</b></td>
-                 <td style="font-size: 22px;"><b>$ {{number_format($data->iva(), 2, '.', ',')}}</b></td>
-             </tr>
-             <tr>
-                 <td class="back-green" style="font-size: 22px;"><b>TOTAL DLLS</b></td>
-                 <td style="font-size: 22px;"><b>$ {{number_format($data->totalDls(), 2, '.', ',')}}</b></td>
-             </tr>
-             <tr>
-                 <td class="back-green" style="font-size: 22px;"><b>PESOS</b></td>
-                 <td style="font-size: 22px;"><b>$ {{number_format($data->total(), 2, '.', ',')}}</b></td>
-             </tr>
-         </table>
-         {{--<div style="width:66%; float: right; height: 50px; text-align: center; font-size: 22px;">
-            <p style="margin-top: 30px">TIPO DE CAMBIO DEL DIA QUE SE EXPIDE LA COTIZACION  <b>{{number_format($data->dls_change, 4, '.', ',')}}</b></p>
-         </div>--}}
-     </div>
+
      @if ($data->note)
          <br><br><br><br><br><br><br><br>
          <p style="text-align: justify; font-size: 22px;">
-             {!!$data->note!!}
+             {{$data->note}}
          </p>
      @endif
 

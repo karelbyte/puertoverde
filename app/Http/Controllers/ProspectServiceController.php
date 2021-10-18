@@ -57,7 +57,7 @@ class ProspectServiceController extends Controller
 
             $clientService = ClientService::create([
                 'user_id' => auth()->user()->id,
-                'folio' => $this->nextFolio(),
+                'folio' => $this->nextFolio('folio'),
                 'rate' =>  $request->rate,
                 'client_id' => $request->client_id,
                 'created_at' => now(),

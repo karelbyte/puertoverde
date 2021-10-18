@@ -8,6 +8,7 @@ use App\Http\Controllers\ProspectServiceController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryFixController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,35 +20,13 @@ use App\Http\Controllers\InventoryFixController;
 |
 */
 
-Route::get('/test', function () {
-
-    $products =  Product::with(['prices', 'providers', 'relates'])
-        ->filter($this->params['name'] ?? null)
-        ->type($this->params['type'] ?? null)
-        ->get();
-
-    return  $products->map(function ($product) {
-        $salePrice = $product->price->sale_price ?? $product->prices[0]->sale_price;
-        $price = $product->price->price ?? $product->prices[0]->price;
-        return [
-            'code' => $product->code,
-            'name' => $product->name,
-            'description' => $product->description,
-            'type' => $product->gettype(),
-            'measure' => $product->measure->name,
-            'price' =>  number_format($price, 2, '.', ','),
-            'sale_price' =>  number_format($salePrice, 2, '.', ',')
-        ];
-    });
-
-});
-
 Route::get('/page-pay', [ClientServiceController::class, 'pagePay']);
 Route::get('/quote/{id}', [ProspectServiceController::class, 'quoteDoc']);
 Route::get('/single-quote/{id}', [ClientServiceController::class, 'quoteDoc']);
 Route::get('/receipts-doc/{id}', [ReceiptController::class, 'receiptDoc']);
 Route::get('/inventories-history-doc/{id}', [InventoryController::class, 'historyDoc']);
 Route::get('/inventory-fix/doc/{id}', [InventoryFixController::class, 'inventoryFixDoc']);
+Route::get('/orders-doc/{id}', [OrderController::class, 'orderDoc']);
 
 Route::get('/cache', function () {
 
@@ -61,7 +40,7 @@ Route::get('/cache', function () {
 
     Artisan::call('config:cache');
 
-    return 'CACHE DEL SISTEMA LIMPIADA CON EXITO';
+    return 'CACHE DEL SISTEMA CONFIGURADA CON EXITO';
 
 });
 

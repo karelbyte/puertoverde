@@ -15,6 +15,7 @@ use App\Http\Controllers\ClientGalleryController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryFixController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -46,6 +47,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('settings/current/change', [SettingController::class, 'getCurrentMoneyChange']);
     Route::get('settings/get/{key}', [SettingController::class, 'getSetting']);
     Route::get('receipts/inventories/{id}', [ReceiptController::class, 'setToInventories']);
+    Route::get('orders/inventories/{id}/{document}', [OrderController::class, 'setToInventories']);
+    Route::get('orders/resources', [OrderController::class, 'resources']);
     Route::get('inventories-fixes/inventories/{id}', [InventoryFixController::class, 'setToInventories']);
     Route::get('clients-services/inventories/{id}', [ClientServiceController::class, 'setToInventories']);
     Route::get('clients-services/clone/{id}', [ClientServiceController::class, 'clone']);
@@ -54,6 +57,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('prospect-services/create/client', [ProspectServiceController::class, 'createClient']);
     Route::post('prospect-services/combine', [ProspectServiceController::class, 'combined']);
+    Route::post('clients-services/quote/combine', [ClientServiceController::class, 'combined']);
     Route::post('products/file', [ProductController::class, 'storeFile']);
     Route::post('products/price/add', [ProductController::class, 'addPriceToProduct']);
 
@@ -70,6 +74,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('receipts', ReceiptController::class);
     Route::apiResource('inventories-fixes', InventoryFixController::class);
     Route::apiResource('inventories', InventoryController::class);
+    Route::apiResource('orders', OrderController::class);
 });
 
 

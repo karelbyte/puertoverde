@@ -48,6 +48,20 @@ class Settings extends Seeder
                'description' => 'Activar uso de inventario',
                'value' => 0
            ],
+           [
+               'id' =>5,
+               'key' => 'order_prefix',
+               'type' => 'input',
+               'description' => 'Prefijo de pedidos',
+               'value' => 'PE',
+           ],
+           [
+               'id' => 6,
+               'key' => 'order',
+               'type' => 'input',
+               'description' => 'Pedido',
+               'value' => 1000
+           ],
        ];
       foreach ($items as $item ) {
           $settings->create($item);
